@@ -4,33 +4,43 @@ function ClientDatabase(name) {
         console.log("Initialising database");
         localStorage.setItem(this.name, JSON.stringify(data));
     };
+    this.insert = function (document) {
+        var collection = JSON.parse(localStorage.getItem(this.name));
 
+        if (collection) {
+            collection.push(document);
+        } else {
+            collection = [document];
+        }
+
+        localStorage.setItem(this.name, JSON.stringify(collection));
+    };
     this.find = function (query, options) {
-        var inventoryArray = JSON.parse(localStorage.getItem(this.name));
+        var collection = JSON.parse(localStorage.getItem(this.name));
         var results = [];
-        if (inventoryArray) {
-            for (var i = 0; i < inventoryArray.length; i += 1) {
+        if (collection) {
+            for (var i = 0; i < collection.length; i += 1) {
                 var pushToRes = true;
                 for (var queryParam in query) {
                     if (query.hasOwnProperty(queryParam)) {
                         switch (typeof(query[queryParam])) {
                             case "string":
-                                if (query[queryParam] !== inventoryArray[i][queryParam]) {
+                                if (query[queryParam] !== collection[i][queryParam]) {
                                     pushToRes = false;
                                 }
                                 break;
                             case "number":
-                                if (query[queryParam] !== parseInt(inventoryArray[i][queryParam], 10)) {
+                                if (query[queryParam] !== parseInt(collection[i][queryParam], 10)) {
                                     pushToRes = false;
                                 }
                                 break;
                             case "object":
                                 if (query[queryParam].$min){
-                                    pushToRes = parseInt(inventoryArray[i][queryParam], 10) >= query[queryParam].$min
+                                    pushToRes = parseInt(collection[i][queryParam], 10) >= query[queryParam].$min
                                 }
 
                                 if (query[queryParam].$max){
-                                    pushToRes = parseInt(inventoryArray[i][queryParam], 10) <= query[queryParam].$max
+                                    pushToRes = parseInt(collection[i][queryParam], 10) <= query[queryParam].$max
                                 }
                                 break;
                             default:
@@ -43,7 +53,7 @@ function ClientDatabase(name) {
                 }
 
                 if (pushToRes) {
-                    results.push(inventoryArray[i]);
+                    results.push(collection[i]);
                 }
             }
 
