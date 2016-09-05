@@ -5,7 +5,7 @@ function ClientDatabase(name) {
         localStorage.setItem(this.name, JSON.stringify(data));
     };
 
-    this.find = function (query) {
+    this.find = function (query, options) {
         var inventoryArray = JSON.parse(localStorage.getItem(this.name));
         var results = [];
         if (inventoryArray) {
@@ -46,10 +46,40 @@ function ClientDatabase(name) {
                     results.push(inventoryArray[i]);
                 }
             }
+
+            if (options) {
+                if (options.orderBy) {
+                    var sortBy = function(field, direction){
+
+                        var getValueFromKey = function(x) {return x[field]};
+
+                        if (direction === -1) {
+                            return function (a, b) {
+                                return a = getValueFromKey(a), b = getValueFromKey(b), ((b > a) - (a > b));
+                            }
+                        } else {
+                            return function (a, b) {
+                                return a = getValueFromKey(a), b = getValueFromKey(b), ((a > b) - (b > a));
+                            }
+                        }
+
+                    };
+
+                    results.sort(sortBy(options.orderBy.field, options.orderBy.direction));
+                }
+
+                if (options.skip || options.limit) {
+                    var skip = options.skip ? options.skip : 0;
+                    var limit = options.limit ? options.limit : undefined;
+
+                    results = results.slice(skip, (limit + skip))
+                }
+            }
+
             return results;
+
         } else {
             console.log("Database not initialised, trying now");
         }
     }
 }
-
