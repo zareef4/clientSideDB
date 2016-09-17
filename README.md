@@ -37,7 +37,7 @@ options - *Optional.* Options such as limit and ordering
 
 ##Examples
 
-Use the following code to create a new database, *Persons*, with some test data.
+Use the following code to create a new database, *Employees*, with some test data.
 
 ```javascript
 Employees = new ClientDatabase('employees')
