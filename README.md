@@ -30,4 +30,7 @@ Test.find(query, options)
 ```
 
 query - *Optional.* Selection filter
+
 options - *Optional.* Options such as limit and ordering
+
+#### Examples
