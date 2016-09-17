@@ -60,7 +60,7 @@ Employees.init([
 ])
 ```
 
-Now you can do a basic search for all employees with first name **John*:
+Now you can do a basic search for all employees with first name **John**:
 
 ```javascript
 Employees.find({
