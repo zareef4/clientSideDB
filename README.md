@@ -1,13 +1,13 @@
 # clientSideDB
 
-Easy to use "client side database" turn any JSON Array into a searchable database with sytax similar to MongoDB
+Easy to use "client side database" turn any JSON Array into a searchable database with syntax similar to MongoDB
 
 ##Guide
 
 ###1. Create a new database:
 
 ```javascript
-Test = new ClidentDatabase('test')
+Test = new ClientDatabase('test')
 ```
 
 ###2. Add data to Database:
